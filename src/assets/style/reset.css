@@ -1,0 +1,22 @@
+body {
+  background-color: #F5F5F5;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.follow-no, .follow {
+  margin-top: .133333rem;
+  position: absolute;
+  right: .4rem;
+  height: .586667rem;
+  line-height: .586667rem;
+  text-align: center;
+  border: .026667rem solid;
+  font-size: .373333rem;
+  font-weight: 500;
+  border-radius: .08rem;
+  padding: 0 .186667rem;
+}
