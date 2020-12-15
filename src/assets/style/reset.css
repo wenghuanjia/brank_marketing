@@ -20,3 +20,7 @@ body {
   border-radius: .08rem;
   padding: 0 .186667rem;
 }
+
+.header-state {
+  color: #f9c600;
+}

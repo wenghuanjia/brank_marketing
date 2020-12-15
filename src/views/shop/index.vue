@@ -8,7 +8,7 @@
     />
     <nothing v-if="0" />
     <div class="good-list">
-      <div class="good-card">
+      <div class="good-card" @click="handleJump(111)">
         <div class="good-card-img">
           <img
             src="http://www.ky200.com//api/file/showImg/1293455088741494786"
@@ -19,7 +19,7 @@
           <p class="price">¥ <span>0</span></p>
         </div>
       </div>
-      <div class="good-card">
+      <div class="good-card" @click="handleJump(222)">
         <div class="good-card-img">
           <img
             src="http://www.ky200.com//api/file/showImg/1293029144620937217"
@@ -30,7 +30,7 @@
           <p class="price">¥ <span>168</span></p>
         </div>
       </div>
-      <div class="good-card">
+      <div class="good-card" @click="handleJump(333)">
         <div class="good-card-img">
           <img
             src="http://www.ky200.com//api/file/showImg/1251042931957788673"
@@ -47,17 +47,24 @@
 
 <script>
 import { defineComponent, ref } from "vue";
+import { useRouter } from 'vue-router'
 import nothing from "@/components/nothing/index";
 export default defineComponent({
   setup() {
+    const router = useRouter();
     let inputValue = ref("");
     // 搜索 事件
     const search = (val) => {
       console.log(val);
     };
+    // 跳转 事件
+    const handleJump = (id) => {
+      router.push(`/shop-detail/${id}`)
+    }
     return {
       inputValue,
       search,
+      handleJump
     };
   },
   components: {

@@ -5,7 +5,16 @@ import store from "./store";
 import "amfe-flexible";
 import "normalize.css";
 import "./assets/style/reset.css";
-import { Button, Tabbar, TabbarItem, Icon, Empty, Search } from "vant";
+import {
+  Button,
+  Tabbar,
+  TabbarItem,
+  Icon,
+  Empty,
+  Search,
+  Tab,
+  Tabs,
+} from "vant";
 
 const app = createApp(App);
 app
@@ -14,6 +23,8 @@ app
   .use(TabbarItem)
   .use(Icon)
   .use(Empty)
+  .use(Tabs)
+  .use(Tab)
   .use(Search);
 
 app
