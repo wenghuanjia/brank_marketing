@@ -17,7 +17,7 @@ export default defineComponent({
   setup() {
     const active = ref(0);
     return {
-      active,
+      active
     };
   },
 });

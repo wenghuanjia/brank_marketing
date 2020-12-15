@@ -1,52 +1,81 @@
 <template>
-  <div class="scan">
+  <div class="scan" v-if="!isNo">
     <div class="header">
-      <img
-        src="http://www.ky200.com/api/file/showImg/1293036387491885058"
-        class="header-img"
-      />
+      <img :src="data.logo" class="header-img" />
       <div class="enterprise-msg">
-        <p class="name">板城酒业集团</p>
+        <p class="name">{{ data.qiye_name }}</p>
         <p class="state"><van-icon name="gem-o" />认证企业</p>
       </div>
       <span class="follow-no">关注</span>
     </div>
-    <div class="picModel">
-      <img
-        src="http://www.ky200.com/api/file/showImg/1293086161033211906"
-        alt=""
-      />
-    </div>
+    <!-- <div class="picModel">
+      <img :src="data.logo" alt="" />
+    </div> -->
     <div class="Video">
       <video
-        src="https://opensources-oss.oss-cn-shenzhen.aliyuncs.com/605389a3-9d80-4607-ae11-642918b08725.mp4"
-        poster="https://opensources-oss.oss-cn-shenzhen.aliyuncs.com/605389a3-9d80-4607-ae11-642918b08725.mp4?x-oss-process=video/snapshot,t_4000,f_jpg,w_0,h_0,m_fast"
+        :src="data.video_url"
         controls="controls"
         width="100%"
         preload="auto"
-        style="vertical-align: bottom; height: 6rem"
+        style="vertical-align: bottom; height: 6rem; width: 100%"
       ></video>
     </div>
     <div class="picModel">
-      <img
-        src="http://www.ky200.com/api/file/showImg/1293089333684449282"
-        alt=""
-      />
+      <img :src="data.product_details" alt="" />
     </div>
     <div class="picModel">
-      <img
-        src="http://www.ky200.com/api/file/showImg/1293097334797479937"
-        alt=""
-      />
+      <img :src="data.product_details_bottom" alt="" />
     </div>
   </div>
+  <nothing v-else />
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { createApp } from "vue";
+import { Toast } from "vant";
+const app = createApp();
+app.use(Toast);
+import { defineComponent, onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
+import { reqHomeData } from "@/api/home";
+import { setStore, getStore } from "@/common/common";
+import nothing from "@/components/nothing";
+
 export default defineComponent({
   name: "ScanIndex",
-  setup() {},
+  setup() {
+    const data = ref({});
+    const isNo = ref(false);
+    const route = useRoute();
+    const keywords = route.query.mobile || JSON.parse(getStore('keywords'));
+    if (keywords) {
+      setStore('keywords', JSON.stringify(keywords))
+    }
+    // 获取 首页 数据
+    const _getHomeData = async () => {
+      if (!keywords) {
+        isNo.value = true;
+        return Toast("请先注册");
+      }
+      let res = await reqHomeData(keywords);
+      if (res.status === 1) {
+        data.value = res.data.list;
+        isNo.value = false;
+      } else {
+        Toast(res.msg);
+      }
+    };
+    onMounted(() => {
+      _getHomeData();
+    });
+    return {
+      data,
+      isNo,
+    };
+  },
+  components: {
+    nothing,
+  },
 });
 </script>
 
