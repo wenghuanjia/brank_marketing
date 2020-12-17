@@ -24,3 +24,8 @@ body {
 .header-state {
   color: #f9c600;
 }
+
+.pointer {
+  pointer-events: none;
+  opacity: 0.6;
+}

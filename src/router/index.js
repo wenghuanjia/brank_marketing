@@ -32,6 +32,12 @@ const routes = [
     ],
   },
   {
+    path: "/e-detail/:id",
+    name: "EnterpriseDetail",
+    component: () =>
+      import(/* webpackChunkName: "enterprise-detail" */ "../views/e-detail/"),
+  },
+  {
     path: "/shop-detail/:id",
     name: "ShopDetail",
     component: () =>
@@ -40,8 +46,7 @@ const routes = [
   {
     path: "/login",
     name: "Login",
-    component: () =>
-      import(/* webpackChunkName: "login" */ "../views/login/"),
+    component: () => import(/* webpackChunkName: "login" */ "../views/login/"),
   },
   {
     path: "/register",
@@ -54,6 +59,15 @@ const routes = [
     name: "Forget",
     component: () =>
       import(/* webpackChunkName: "forget" */ "../views/forget/"),
+  },
+  {
+    path: "/404",
+    name: "error",
+    component: () => import(/* webpackChunkName: "error" */ "../views/error/"),
+  },
+  {
+    path: "/:catchAll(.*)",
+    redirect: "/404",
   },
 ];
 

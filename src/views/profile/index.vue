@@ -8,7 +8,7 @@
           />
           <p>游客</p>
         </div>
-        <div class="header-login">
+        <div class="header-login" @click="$router.push('/login')">
           <p>登录注册</p>
           <van-icon name="arrow" />
         </div>

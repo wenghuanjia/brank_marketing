@@ -53,7 +53,7 @@
       <van-tab title="企业资讯">
         <div class="newsList">
           <div class="news-card" v-for="i in 5" :key="i">
-            <div class="card">
+            <div class="card" @click="handleJump(i)">
               <img
                 src="http://www.ky200.com/api/file/showImg/1293036941232287746"
               />
@@ -74,7 +74,18 @@
 
 <script>
 import { defineComponent } from "vue";
-export default defineComponent({});
+import { useRouter } from "vue-router";
+export default defineComponent({
+  setup() {
+    const router = useRouter();
+    const handleJump = (id) => {
+      router.push(`/e-detail/${id}`);
+    };
+    return {
+      handleJump,
+    };
+  },
+});
 </script>
 
 <style lang="less" scoped>

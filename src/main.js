@@ -14,6 +14,8 @@ import {
   Search,
   Tab,
   Tabs,
+  Form,
+  Field 
 } from "vant";
 
 const app = createApp(App);
@@ -25,6 +27,8 @@ app
   .use(Empty)
   .use(Tabs)
   .use(Tab)
+  .use(Form)
+  .use(Field)
   .use(Search);
 
 app
