@@ -46,10 +46,10 @@
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
-import { useRouter } from 'vue-router'
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 import nothing from "@/components/nothing/index";
-export default defineComponent({
+export default {
   setup() {
     const router = useRouter();
     let inputValue = ref("");
@@ -59,18 +59,18 @@ export default defineComponent({
     };
     // 跳转 事件
     const handleJump = (id) => {
-      router.push(`/shop-detail/${id}`)
-    }
+      router.push(`/shop-detail/${id}`);
+    };
     return {
       inputValue,
       search,
-      handleJump
+      handleJump,
     };
   },
   components: {
     nothing,
   },
-});
+};
 </script>
 
 <style lang="less" scoped>
@@ -85,7 +85,6 @@ export default defineComponent({
   margin-bottom: 0.266667rem;
   .good-card {
     break-inside: avoid;
-    // break-inside: avoid-column;
     border-radius: 0.16rem;
     background: #fff;
     display: flex;

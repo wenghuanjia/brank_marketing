@@ -2,6 +2,7 @@
   <userLayout title="登录">
     <div class="login-form">
       <van-form
+        autocomplete="off"
         @submit="onSubmit"
         @failed="onFailed"
         validate-first
@@ -30,27 +31,40 @@
           :rules="formRules.password"
         />
         <div class="btn">
-          <van-button native-type="submit" type="primary" size="large">
+          <van-button
+            native-type="submit"
+            type="primary"
+            size="large"
+            :loading="loading"
+            loading-text="登录..."
+          >
             登录
           </van-button>
         </div>
       </van-form>
     </div>
     <div class="box-ctrl">
-      <p @click="handleBack('/register')">注册账号</p>
-      <p @click="handleBack('/forget')">忘记密码？</p>
+      <p @click="handleJump('/register')">注册账号</p>
+      <p @click="handleJump('/forget')">忘记密码？</p>
     </div>
   </userLayout>
 </template>
 
 <script>
-import userLayout from "../../components/user-layout";
-import { defineComponent, reactive, toRefs } from "vue";
-import { useRouter } from "vue-router";
+import qs from "qs";
+import { login } from "@/api/user";
+import userLayout from "@/components/user-layout";
+import { useStore } from "vuex";
+import { reactive, ref, toRefs } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { Toast } from "vant";
-export default defineComponent({
+export default {
   name: "LoginIndex",
   setup() {
+    const router = useRouter();
+    const route = useRoute();
+    const { commit } = useStore();
+    const loading = ref(false);
     const user = reactive({
       username: "",
       password: "",
@@ -63,14 +77,15 @@ export default defineComponent({
       },
     });
 
-    const router = useRouter();
     // 通过验证
     const onSubmit = (values) => {
-      console.log(values);
+      if (loading.value) return;
       Toast({
         message: "登录中...",
         position: "top",
       });
+      loading.value = true;
+      useLogin(values, loading, commit, route, router);
     };
     // 表单验证 不通过时 触发
     const onFailed = (error) => {
@@ -81,15 +96,36 @@ export default defineComponent({
         });
       }
     };
-    const handleBack = (url) => {
-      router.push(url);
+    const handleJump = (url) => {
+      router.push({
+        path: url,
+        query: route.query,
+      });
     };
-    return { ...toRefs(user), onSubmit, handleBack, onFailed };
+    return { ...toRefs(user), onSubmit, handleJump, onFailed, loading };
   },
   components: {
     userLayout,
   },
-});
+};
+
+async function useLogin(data, loading, commit, route, router) {
+  const res = await login(qs.stringify({ ...data, device_type: "mobile" }));
+  loading.value = false;
+  if (res.status === 1) {
+    Toast({
+      message: res.msg,
+      position: "top",
+    });
+    commit("loginSetUserInfo", res.data);
+    route?.query?.redirect ? router.push(route.query.redirect) : router.back();
+  } else {
+    Toast({
+      message: res.msg,
+      position: "top",
+    });
+  }
+}
 </script>
 
 <style lang="less" scoped>

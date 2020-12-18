@@ -1,19 +1,36 @@
 <template>
   <div class="profile">
     <div class="header-msg">
-      <div class="img_name">
-        <div class="header-img-name">
-          <img
-            src="http://www.ky200.com/scanpage/market/img/pig.76934008.jpg"
-          />
-          <p>游客</p>
+      <template v-if="!isLogin">
+        <div class="img_name">
+          <div class="header-img-name">
+            <img
+              src="http://www.ky200.com/scanpage/market/img/pig.76934008.jpg"
+            />
+            <p>游客</p>
+          </div>
+          <div class="header-login" @click="handleLogin">
+            <p>登录注册</p>
+            <van-icon name="arrow" />
+          </div>
         </div>
-        <div class="header-login" @click="$router.push('/login')">
-          <p>登录注册</p>
-          <van-icon name="arrow" />
+      </template>
+      <template v-else>
+        <div class="img_name">
+          <div class="header-img-name">
+            <img
+              src="http://www.ky200.com/scanpage/market/img/pig.76934008.jpg"
+            />
+            <p>{{ user.mobile }}</p>
+          </div>
+          <div class="header-login" @click="logout">
+            <p>退出登录</p>
+            <!-- <van-icon name="arrow" /> -->
+          </div>
         </div>
-      </div>
-      <div class="personal-data">
+      </template>
+
+      <div class="personal-data" :class="{ 'no-login-in': !isLogin }">
         <div class="datas">
           <p class="num no-login">-</p>
           <p class="context no-login">产品收藏</p>
@@ -32,7 +49,7 @@
         </div>
       </div>
     </div>
-    <div class="model">
+    <div class="model" :class="{ 'no-login-in': !isLogin }">
       <div class="title no-login">福利互动</div>
       <div class="options">
         <div class="button">
@@ -51,7 +68,7 @@
         </div>
       </div>
     </div>
-    <div class="tool">
+    <div class="tool" :class="{ 'no-login-in': !isLogin }">
       <div class="title no-login">工具服务</div>
       <div class="options">
         <div class="button">
@@ -81,7 +98,45 @@
 </template>
 
 <script>
-export default {};
+import { Dialog } from "vant";
+import { useStore } from "vuex";
+import { useRoute, useRouter } from "vue-router";
+import { computed } from "vue";
+export default {
+  setup() {
+    const router = useRouter();
+    const route = useRoute();
+    const { state, commit } = useStore();
+    const user = computed(() => state.user);
+    const isLogin = computed(() => state.user);
+
+    const handleLogin = () => {
+      router.push({
+        path: "/login",
+        query: {
+          redirect: route.fullPath,
+        },
+      });
+    };
+    // 退出登录
+    const logout = () => {
+      Dialog.confirm({
+        title: "提示",
+        message: "确认退出登录",
+      })
+        .then(() => {
+          commit("logout");
+        })
+        .catch(() => {});
+    };
+    return {
+      handleLogin,
+      user,
+      isLogin,
+      logout,
+    };
+  },
+};
 </script>
 
 <style lang="less" scoped>
@@ -207,15 +262,12 @@ export default {};
     font-weight: 600;
   }
 }
-.datas .no-login,
-.model .no-login,
-.options .button .no-login,
-.tool .no-login {
-  color: rgba(0, 0, 0, 0.2);
-  pointer-events: none;
+.no-login-in .no-login {
+  color: rgba(0, 0, 0, 0.2) !important;
+  pointer-events: none !important;
 }
-.no-login-icon {
-  opacity: 0.2;
-  pointer-events: none;
+.no-login-in .no-login-icon {
+  opacity: 0.2 !important;
+  pointer-events: none !important;
 }
 </style>

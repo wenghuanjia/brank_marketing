@@ -2,6 +2,7 @@
   <userLayout title="注册会员">
     <div class="login-form">
       <van-form
+        autocomplete="off"
         @submit="onSubmit"
         @failed="onFailed"
         label-width="60px"
@@ -46,11 +47,19 @@
           :rules="formRules.code"
         >
           <template #button>
-            <span :class="isCode ? 'code' : 'pointer'">获取验证码</span>
+            <span :class="isCode ? 'code' : 'pointer'" @click="handleCode">{{
+              codeTxt
+            }}</span>
           </template>
         </van-field>
         <div class="btn">
-          <van-button type="primary" native-type="submit" size="large">
+          <van-button
+            type="primary"
+            :loading="loading"
+            loading-text="注册..."
+            native-type="submit"
+            size="large"
+          >
             提交
           </van-button>
         </div>
@@ -63,17 +72,23 @@
 </template>
 
 <script>
-import userLayout from "../../components/user-layout";
-import { defineComponent, reactive, toRefs, watch } from "vue";
-import { useRouter } from "vue-router";
+import qs from "qs";
+import { register } from "@/api/user";
+import { useReqCode } from "../../hook/useUserHook";
+import userLayout from "@/components/user-layout";
+import { reactive, ref, toRefs, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { Toast } from "vant";
-export default defineComponent({
+export default {
   name: "RegisterIndex",
   setup() {
     const router = useRouter();
+    const route = useRoute();
     const validator = () => {
       if (user.password !== user.confirmPwd) return false;
     };
+    const loading = ref(false);
+    const codeTxt = ref("获取验证码");
     const user = reactive({
       username: "",
       password: "",
@@ -103,11 +118,32 @@ export default defineComponent({
         }
       }
     );
+    // 提交按钮 事件
     const onSubmit = (values) => {
-      console.log("submit", values);
+      Toast.loading({
+        message: "",
+        forbidClick: true,
+      });
+      let data = {
+        username: values.username,
+        password: values.password,
+        verification_code: values.code,
+      };
+      handleRegister(data, loading, handleBack);
     };
     const handleBack = () => {
-      router.push("/login");
+      router.push({
+        path: "/login",
+        query: route.query,
+      });
+    };
+    // 获取 验证码
+    const handleCode = () => {
+      Toast.loading({
+        message: "",
+        forbidClick: true,
+      });
+      useReqCode(user.username, codeTxt);
     };
     // 表单验证 不通过时 触发
     const onFailed = (error) => {
@@ -122,13 +158,36 @@ export default defineComponent({
       handleBack,
       onSubmit,
       onFailed,
+      handleCode,
+      codeTxt,
+      loading,
       ...toRefs(user),
     };
   },
   components: {
     userLayout,
   },
-});
+};
+// 注册
+async function handleRegister(data, loading, handleBack) {
+  if (loading.value) return;
+  try {
+    let res = await register(qs.stringify(data));
+    Toast({
+      message: res.msg,
+      position: "top",
+    });
+    if (res.status === 1) {
+      let timer = setTimeout(() => {
+        clearTimeout(timer);
+        typeof handleBack === "function" && handleBack();
+      }, 1000);
+    }
+    loading.value = false;
+  } catch (error) {
+    console.log(error);
+  }
+}
 </script>
 
 <style lang="less" scoped>

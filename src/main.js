@@ -15,7 +15,7 @@ import {
   Tab,
   Tabs,
   Form,
-  Field 
+  Field,
 } from "vant";
 
 const app = createApp(App);

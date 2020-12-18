@@ -11,16 +11,16 @@
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
-export default defineComponent({
+import { ref } from "vue";
+export default {
   name: "LayoutIndex",
   setup() {
     const active = ref(0);
     return {
-      active
+      active,
     };
   },
-});
+};
 </script>
 
 <style lang="less" scoped>

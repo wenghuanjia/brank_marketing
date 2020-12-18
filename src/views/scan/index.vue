@@ -1,6 +1,6 @@
 <template>
   <div class="scan" v-if="!isNo">
-    <div class="header">
+    <div class="header" v-if="data.logo">
       <img :src="data.logo" class="header-img" />
       <div class="enterprise-msg">
         <p class="name">{{ data.qiye_name }}</p>
@@ -11,7 +11,7 @@
     <!-- <div class="picModel">
       <img :src="data.logo" alt="" />
     </div> -->
-    <div class="Video">
+    <div class="Video" v-if="data.video_url">
       <video
         :src="data.video_url"
         controls="controls"
@@ -20,10 +20,10 @@
         style="vertical-align: bottom; height: 6rem; width: 100%"
       ></video>
     </div>
-    <div class="picModel">
+    <div class="picModel" v-if="data.product_details">
       <img :src="data.product_details" alt="" />
     </div>
-    <div class="picModel">
+    <div class="picModel" v-if="data.product_details_bottom">
       <img :src="data.product_details_bottom" alt="" />
     </div>
   </div>
@@ -31,25 +31,22 @@
 </template>
 
 <script>
-import { createApp } from "vue";
 import { Toast } from "vant";
-const app = createApp();
-app.use(Toast);
-import { defineComponent, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { reqHomeData } from "@/api/home";
 import { setStore, getStore } from "@/common/common";
 import nothing from "@/components/nothing";
 
-export default defineComponent({
+export default {
   name: "ScanIndex",
   setup() {
     const data = ref({});
     const isNo = ref(false);
     const route = useRoute();
-    const keywords = route.query.mobile || JSON.parse(getStore('keywords'));
+    const keywords = route.query.mobile || JSON.parse(getStore("keywords"));
     if (keywords) {
-      setStore('keywords', JSON.stringify(keywords))
+      setStore("keywords", JSON.stringify(keywords));
     }
     // 获取 首页 数据
     const _getHomeData = async () => {
@@ -60,7 +57,18 @@ export default defineComponent({
       let res = await reqHomeData(keywords);
       if (res.status === 1) {
         data.value = res.data.list;
-        isNo.value = false;
+        let oKey = Object.keys(res.data.list);
+        let emptyLen = 0;
+        for (const key in res.data.list) {
+          if (!res.data.list[key]) {
+            emptyLen++;
+          }
+        }
+        if (emptyLen == oKey.length - 2) {
+          isNo.value = true;
+        } else {
+          isNo.value = false;
+        }
       } else {
         Toast(res.msg);
       }
@@ -76,7 +84,7 @@ export default defineComponent({
   components: {
     nothing,
   },
-});
+};
 </script>
 
 <style lang="less" scoped>

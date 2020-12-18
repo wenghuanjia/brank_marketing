@@ -45,23 +45,20 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 
-export default defineComponent({
+export default {
   name: "ShopDetailIndex",
   setup() {
-    const route = useRoute();
     const router = useRouter();
-    console.log(route.params.id);
     const back = () => {
       router.back();
-    }
+    };
     return {
-      back
+      back,
     };
   },
-});
+};
 </script>
 
 <style lang="less" scoped>

@@ -73,9 +73,8 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
-export default defineComponent({
+export default {
   setup() {
     const router = useRouter();
     const handleJump = (id) => {
@@ -85,7 +84,7 @@ export default defineComponent({
       handleJump,
     };
   },
-});
+};
 </script>
 
 <style lang="less" scoped>
