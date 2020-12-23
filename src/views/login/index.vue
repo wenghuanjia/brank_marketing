@@ -51,13 +51,13 @@
 </template>
 
 <script>
+import { Toast } from "vant";
 import qs from "qs";
 import { login } from "@/api/user";
 import userLayout from "@/components/user-layout";
 import { useStore } from "vuex";
 import { reactive, ref, toRefs } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { Toast } from "vant";
 export default {
   name: "LoginIndex",
   setup() {
@@ -80,20 +80,14 @@ export default {
     // 通过验证
     const onSubmit = (values) => {
       if (loading.value) return;
-      Toast({
-        message: "登录中...",
-        position: "top",
-      });
+      Toast("登录中...");
       loading.value = true;
       useLogin(values, loading, commit, route, router);
     };
     // 表单验证 不通过时 触发
     const onFailed = (error) => {
       if (error.errors[0]) {
-        Toast({
-          message: error.errors[0].message,
-          position: "top",
-        });
+        Toast(error.errors[0].message);
       }
     };
     const handleJump = (url) => {
@@ -113,17 +107,11 @@ async function useLogin(data, loading, commit, route, router) {
   const res = await login(qs.stringify({ ...data, device_type: "mobile" }));
   loading.value = false;
   if (res.status === 1) {
-    Toast({
-      message: res.msg,
-      position: "top",
-    });
+    Toast(res.msg);
     commit("loginSetUserInfo", res.data);
     route?.query?.redirect ? router.push(route.query.redirect) : router.back();
   } else {
-    Toast({
-      message: res.msg,
-      position: "top",
-    });
+    Toast(res.msg);
   }
 }
 </script>
@@ -131,13 +119,16 @@ async function useLogin(data, loading, commit, route, router) {
 <style lang="less" scoped>
 .login-form {
   padding: 20px 30px;
-  /deep/ .van-cell {
+  :deep(.van-cell) {
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
+  :deep(.van-popup) {
+    background: none !important;
+  }
 }
 .btn {
-  /deep/ button {
+  :deep(button) {
     margin: 30px 0;
     height: 40px !important;
     background: #69a5ff;

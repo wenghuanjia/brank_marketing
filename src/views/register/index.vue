@@ -148,10 +148,7 @@ export default {
     // 表单验证 不通过时 触发
     const onFailed = (error) => {
       if (error.errors[0]) {
-        Toast({
-          message: error.errors[0].message,
-          position: "top",
-        });
+        Toast(error.errors[0].message);
       }
     };
     return {
@@ -173,10 +170,7 @@ async function handleRegister(data, loading, handleBack) {
   if (loading.value) return;
   try {
     let res = await register(qs.stringify(data));
-    Toast({
-      message: res.msg,
-      position: "top",
-    });
+    Toast(res.msg);
     if (res.status === 1) {
       let timer = setTimeout(() => {
         clearTimeout(timer);
@@ -193,13 +187,16 @@ async function handleRegister(data, loading, handleBack) {
 <style lang="less" scoped>
 .login-form {
   padding: 20px 30px;
-  /deep/ .van-cell {
+  :deep(.van-cell) {
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
+  :deep(.van-popup) {
+    background: none !important;
+  }
 }
 .btn {
-  /deep/ button {
+  :deep(button) {
     margin-top: 30px;
     height: 40px !important;
     background: #69a5ff;

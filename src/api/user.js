@@ -12,3 +12,6 @@ export const forgetPwd = (data) =>
 
 // 获取 验证码
 export const reqCode = (data) => axios("/user/verification/send", data, "POST");
+
+// 获取 二维码 地址
+export const reqCodeUrl = () => axios("/user/Profile/userCode");

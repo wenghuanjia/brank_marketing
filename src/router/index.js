@@ -61,6 +61,12 @@ const routes = [
       import(/* webpackChunkName: "forget" */ "../views/forget/"),
   },
   {
+    path: "/extension",
+    name: "Extension",
+    component: () =>
+      import(/* webpackChunkName: "extension" */ "../views/extension/"),
+  },
+  {
     path: "/404",
     name: "error",
     component: () => import(/* webpackChunkName: "error" */ "../views/error/"),

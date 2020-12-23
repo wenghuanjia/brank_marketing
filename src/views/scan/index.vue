@@ -27,7 +27,7 @@
       <img :src="data.product_details_bottom" alt="" />
     </div>
   </div>
-  <nothing v-else />
+  <nothing description="未注册，暂无资讯信息" v-else />
 </template>
 
 <script>
@@ -52,7 +52,9 @@ export default {
     const _getHomeData = async () => {
       if (!keywords) {
         isNo.value = true;
-        return Toast("请先注册");
+
+        // Toast("请先注册");
+        return;
       }
       let res = await reqHomeData(keywords);
       if (res.status === 1) {
