@@ -1093,10 +1093,10 @@
     "@types/webpack-sources" "*"
     source-map "^0.6.0"
 
-"@vant/icons@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@vant/icons/-/icons-1.4.0.tgz#a91f7894f2f34356f78a5d6f8b9d4f1a46add0c5"
-  integrity sha512-96k+x00FqdGAQeTWrHEJ6C+QNifPQu58W9mv8pJAQ7VQ527KV9GHQT7m2TT+PhHXejDENYhlpW/XWOB66j8r8w==
+"@vant/icons@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@vant/icons/-/icons-1.5.0.tgz#ce78a2f055a1a4099129bb6c44d54584f3740e27"
+  integrity sha512-qHQU3GiQ6AkpjhYni46xG+YOy36LNmbHFanyjvzi+fODu+pEKYwqfLWluv42Q9CM4hshNET8A+Vsr0pr2UVTnA==
 
 "@vant/lazyload@^1.0.2":
   version "1.0.2"
@@ -1110,10 +1110,12 @@
   dependencies:
     "@popperjs/core" "^2.5.4"
 
-"@vant/use@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@vant/use/-/use-0.1.0.tgz#7d2020aa7e5ab92d57dea46cb24dd9013c7eacee"
-  integrity sha512-INLOc5l5sI4Zpdd0ayf6IlaDe48m1/OTtKjkkOIW9Hl5xgLQX+aycgDmOof6nwUtNaln8IbkxXpvx6ggxVJCxA==
+"@vant/use@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@vant/use/-/use-1.0.0.tgz#68db22af1130ccf867814fec5ec8c4f7ad94f36d"
+  integrity sha512-Ff9ZDF+PNZfIvnZEQFImlbj9mGXG1MoFdSYrUq/TTXibxT1n6iT+rqS/h/nLnzyjciha/qQQb0TApTSGWy5uSQ==
+  dependencies:
+    "@babel/runtime" "7.x"
 
 "@vue/babel-helper-vue-jsx-merge-props@^1.2.1":
   version "1.2.1"
@@ -8368,16 +8370,16 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-vant@^3.0.0-rc.3:
-  version "3.0.0-rc.3"
-  resolved "https://registry.yarnpkg.com/vant/-/vant-3.0.0-rc.3.tgz#cc84a571183a184a8710fac5fd0aee1f42ab9d09"
-  integrity sha512-05VQFLHl5VRMXKpsw9brMk06XaBE4OiUgk/VdAmNFtILZUHgYHKQ64odOEdtRoHc4gU3dIDhbqPiuIiS3+dn6Q==
+vant@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/vant/-/vant-3.0.0.tgz#f1268c60ccb8e6be62f0d009480597db855f3f77"
+  integrity sha512-MU8VlNyC1bhkv229NAX/c5CpUsEGnQpkkroezIs+jw/4dxt9ai2wUjwg2GmtsGKJv8hxAIqgrAwIKetiWZcVeg==
   dependencies:
     "@babel/runtime" "7.x"
-    "@vant/icons" "^1.4.0"
+    "@vant/icons" "^1.5.0"
     "@vant/lazyload" "^1.0.2"
     "@vant/popperjs" "^1.0.2"
-    "@vant/use" "^0.1.0"
+    "@vant/use" "^1.0.0"
 
 vary@~1.1.2:
   version "1.1.2"
